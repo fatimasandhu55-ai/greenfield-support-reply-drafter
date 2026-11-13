@@ -1,0 +1,10 @@
+[
+  {
+    "customer": "Ali",
+    "message": "I have not received my order yet."
+  },
+  {
+    "customer": "Sara",
+    "message": "Can I get a refund for my purchase?"
+  }
+]

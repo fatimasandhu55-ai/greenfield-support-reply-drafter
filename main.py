@@ -1,13 +1,8 @@
-import json
-from prompt_template import build_prompt
+import json, sys
+from prompt_template import draft_reply
 
-with open("sample_tickets.json", "r") as file:
-    tickets = json.load(file)
+with open(sys.argv[1]) as f:
+    ticket = json.load(f)
 
-for ticket in tickets:
-    prompt = build_prompt(
-        ticket["customer"],
-        ticket["message"]
-    )
-
-    print(prompt)
+result = draft_reply(ticket)
+print(json.dumps(result))

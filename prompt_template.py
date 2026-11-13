@@ -1,21 +1,22 @@
 import json
-import os
-from openai import OpenAI
-
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def build_prompt(ticket):
-    return f"""
-You are a support agent. Write a reply for this ticket.
-Ticket: {ticket['message']}
-Return ONLY JSON like this:
-{{"subject": "...", "body": "...", "tone": "friendly"}}
-"""
+    return f"Ticket: {ticket['message']}"
 
 def draft_reply(ticket):
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": build_prompt(ticket)}],
-        response_format={"type": "json_object"}
-    )
-    return json.loads(response.choices[0].message.content)
+    msg = ticket['message'].lower()
+    if "delay" in msg or "late" in msg:
+        tone = "friendly"
+        subject = "Re: Delivery delay"
+    elif "refund" in msg or "money" in msg:
+        tone = "firm"
+        subject = "Re: Refund request"
+    else:
+        tone = "friendly"
+        subject = "Re: Your request"
+    
+    return {
+        "subject": subject,
+        "body": f"Hi, thanks for telling us. We checked your issue: {ticket['message']} We will fix it soon.",
+        "tone": tone
+    }

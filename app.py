@@ -4,7 +4,8 @@ import os
 
 app = Flask(__name__)
 
-DB_NAME = "tickets.db"
+DB_NAME = "/tmp/tickets.db"
+
 
 # Task 01 wala prompt function - yahi draft banayega
 def generate_draft(ticket_text):
